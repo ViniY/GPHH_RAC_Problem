@@ -1,0 +1,16 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4461.242109452976]
+Tree 0:
+ (- CFH DEM)
+
+Generation: 1
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4532.009739280555]
+Tree 0:
+ (- (- (+ (max (/ FUT CTD) (+ CFH FULL)) (/ (* CFH FULL) (+ CFH CR))) (max (- (min CTT1 CFH) (/ CFR1 RQ)) (max (/ CFR1 CFH) (+ RQ FUT)))) (min (max (+ (* DC FULL) (* DEM 0.27097609485677343)) (/ (/ CR CFR1) (max CTT1 DEM))) (min (max (/ CR DC) (- FRT DC)) (min (* RQ CFH) (max FUT FUT)))))

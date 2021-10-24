@@ -1,0 +1,25 @@
+
+        // Energy = idle + utilization*factor
+        // power = energy * time window * n        (fixed Time window)
+        // Power = integration ( energy/sec )
+        // Time window maybe better
+        // Event (Container arrival)  + time window (learning model (gaps between event))
+        // Time window can be affected by the pattern of works (Problem specific + Data pattern specific) => Learning model
+
+        // => Baseline:
+                // Assume all the containers arrived - time 0
+                // Fitness calculation need to change
+
+        // Learning model:
+                // Distribution for the data Poisson distribution --> generate arrival time for the containers (Simulator?)
+                // Learning model to learn --Container arrival time, mem cpu requirements.
+                // Weibull Time To Event Recurrent Neural Network
+                // LSTM RNN
+
+
+        // 1. First explore the data
+        // 2. Decide a proper model for time windows
+        // 3.
+
+
+

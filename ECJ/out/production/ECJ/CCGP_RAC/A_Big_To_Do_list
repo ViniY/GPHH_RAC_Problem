@@ -1,0 +1,19 @@
+1. Need to rethink about the utilization formula (need to check more references)
+2. Fitness function need to be redefine (integrating overtime)
+3. The energy consumption also need to recheck
+4. Remaining Mem and CPU is a good evaluation of utilization actually
+
+
+
+Number of Containers or scale by time
+
+
+
+1. Initial placement
+2. Multi-objective
+3. periodic re-allocation
+4. Dynamic placement
+
+GGA (group genetic algorithm)
+different aspect of the resources for the clouds could be further considered (like the network utilization, latency and maybe others)
+
