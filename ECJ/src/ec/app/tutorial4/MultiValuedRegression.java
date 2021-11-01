@@ -43,17 +43,17 @@ public class MultiValuedRegression extends GPProblem implements SimpleProblemFor
             double sum = 0.0;
             double expectedResult;
             double result;
-            for (int y=0;y<10;y++)
+            for (int y=0;y<10;y++)// here change to the next hour real value
                 {
                 currentX = state.random[threadnum].nextDouble();
                 currentY = state.random[threadnum].nextDouble();
-                expectedResult = currentX*currentX*currentY + currentX*currentY + currentY;
+//                expectedResult = currentX*currentX*currentY + currentX*currentY + currentY;
                 ((GPIndividual)ind).trees[0].child.eval(
                     state,threadnum,input,stack,((GPIndividual)ind),this);
 
-                result = Math.abs(expectedResult - input.x);
-                if (result <= 0.01) hits++;
-                sum += result;                  
+//                result = Math.abs(expectedResult - input.x);
+//                if (result <= 0.01) hits++;
+//                sum += result;
                 }
 
             // the fitness better be KozaFitness!
