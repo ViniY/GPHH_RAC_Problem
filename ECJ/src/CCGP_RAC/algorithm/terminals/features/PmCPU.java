@@ -1,6 +1,5 @@
 package CCGP_RAC.algorithm.terminals.features;
 
-import CCGP_RAC.algorithm.function.DoubleData;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -8,6 +7,8 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import CCGP_RAC.algorithm.MyEvolutionState;
+import CCGP_RAC.algorithm.terminals.DoubleData;
+
 
 public class PmCPU extends GPNode {
     public String toString(){return "PmCPU";}

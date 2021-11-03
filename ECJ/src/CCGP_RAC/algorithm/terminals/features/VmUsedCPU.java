@@ -1,6 +1,5 @@
 package CCGP_RAC.algorithm.terminals.features;
 
-import CCGP_RAC.algorithm.MyEvolutionState;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
@@ -8,13 +7,14 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import CCGP_RAC.algorithm.terminals.DoubleData;
+import CCGP_RAC.algorithm.MyEvolutionState;
 
-// capture the wait time of the coming containers
-public class ArrivalTime extends GPNode {
-    @Override
-    public String toString() {return "WT";}
+public class VmUsedCPU extends GPNode {
+    public String toString() {return "vmUsedCpu";}
+    public int expectedChildren() { return 0; }
 
-    @Override
+
+
     public void eval(final EvolutionState state,
                      final int thread,
                      final GPData input,
@@ -22,11 +22,9 @@ public class ArrivalTime extends GPNode {
                      final GPIndividual individual,
                      final Problem problem){
         DoubleData rd = (DoubleData)(input);
-
+        MyEvolutionState myState = (MyEvolutionState) state;
 //        ContainerAllocationProblem p = (ContainerAllocationProblem) problem;
-//        rd.x = p.normalizedVmCpuOverhead;
-
-        rd.x = ((MyEvolutionState)state).arrivalTime;
+//        rd.x = p.normalizedVmCpuCapacity;
+        rd.x = myState.normalizedVmActualCpuUsed;
     }
-
 }

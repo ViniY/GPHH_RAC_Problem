@@ -9,6 +9,7 @@ package CCGP_RAC.algorithm.function;
 import ec.*;
 import ec.gp.*;
 import ec.util.*;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 
 public class Add extends GPNode
     {

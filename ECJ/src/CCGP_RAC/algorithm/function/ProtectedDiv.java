@@ -6,6 +6,8 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import CCGP_RAC.algorithm.terminals.DoubleData;
+
 
 public class ProtectedDiv extends GPNode {
     public String toString() { return "/"; }
@@ -40,7 +42,7 @@ public class ProtectedDiv extends GPNode {
 
         children[1].eval(state,thread,input,stack,individual,problem);
         // if the divider is zero then return 1 otherwise return x0/x1
-        if (rd.x == 0 )  rd.x = 1;
+        if (rd.x == 0 )  rd.x = Double.valueOf(1);
         else rd.x = result * rd.x;
     }
 }

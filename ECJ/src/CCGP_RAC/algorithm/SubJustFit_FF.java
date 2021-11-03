@@ -12,8 +12,8 @@ import java.util.HashMap;
  * 3. First-Fit for VM allocation
  */
 public class SubJustFit_FF {
-    private double pmCpu;
-    private double pmMem;
+//    private double pmCpu;
+//    private double pmMem;
     private double pmMaxEnergy;
     private double k;
 
@@ -32,8 +32,9 @@ public class SubJustFit_FF {
     private ArrayList<ArrayList<Double[]>> inputX;
 
     public SubJustFit_FF(
-            double pmCpu,
-            double pmMem,
+//            double pmCpu,
+//            double pmMem,
+
             double pmMaxEnergy,
             double k,
             double vmCpuOverheadRate,
@@ -45,8 +46,8 @@ public class SubJustFit_FF {
             ArrayList<ArrayList> initPm,
             ArrayList<Double[]> vmTypeList
     ){
-        this.pmCpu = pmCpu;
-        this.pmMem = pmMem;
+//        this.pmCpu = pmCpu;
+//        this.pmMem = pmMem;
         this.pmMaxEnergy = pmMaxEnergy;
         this.k = k;
         this.vmCpuOverheadRate = vmCpuOverheadRate;
@@ -59,6 +60,8 @@ public class SubJustFit_FF {
         this.vmTypeList = vmTypeList;
     }
 
+    public SubJustFit_FF(ArrayList<Double[]> pmTypeList, double k, double vmCpuOverheadRate, double vmMemOverhead, ArrayList<ArrayList<Double[]>> inputX, ArrayList<ArrayList> initVm, ArrayList<ArrayList> initContainer, ArrayList<ArrayList> initOs, ArrayList<ArrayList> initPm, ArrayList<Double[]> vmTypeList) {
+    }
 
 
     public double allocate(

@@ -13,7 +13,7 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import gputils.DoubleData;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 
 /**
  *
@@ -62,11 +62,11 @@ public class Max extends GPNode {
         DoubleData rd = ((DoubleData)(input));
 
 		children[0].eval(state,thread,input,stack,individual,problem);
-		result = rd.value;
+		result = rd.x;
 
 		children[1].eval(state,thread,input,stack,individual,problem);
-		if (rd.value < result)
-			rd.value = result;
+		if (rd.x < result)
+			rd.x = result;
     }
 }
 

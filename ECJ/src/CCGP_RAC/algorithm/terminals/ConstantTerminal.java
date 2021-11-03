@@ -5,7 +5,7 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
-import gputils.DoubleData;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 
 /**
  * A constant terminal.
@@ -40,6 +40,6 @@ public class ConstantTerminal extends GPNode {
     public void eval(EvolutionState state, int thread, GPData input,
                      ADFStack stack, GPIndividual individual, Problem problem) {
         DoubleData data = ((DoubleData) input);
-        data.value = value;
+        data.x = value;
     }
 }

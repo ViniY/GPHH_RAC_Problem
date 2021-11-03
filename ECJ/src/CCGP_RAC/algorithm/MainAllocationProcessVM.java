@@ -1,24 +1,16 @@
 package CCGP_RAC.algorithm;
 
-import CCGP_RAC.algorithm.function.DoubleData;
-import com.opencsv.CSVReader;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.ADFStack;
 import ec.gp.GPIndividual;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainAllocationProcessVM {
-
-    public final double PMCPU;
-    public final double PMMEM;
     public final double PMENERGY;
+    public final ArrayList<Double[]> PMConfig;
 
     // A list of containers
     private ArrayList<ArrayList<Double[]>> inputX = new ArrayList<>();
@@ -32,6 +24,7 @@ public class MainAllocationProcessVM {
     // An array of benchmark accumulated energy
     private ArrayList<Double> benchmark = new ArrayList<>();
 
+    private ArrayList<Double[]> pmList = new ArrayList<>();
 
     // Initialization data
     ArrayList <ArrayList> initPm;
@@ -73,70 +66,29 @@ public class MainAllocationProcessVM {
     public double normalizedVmActualCpuUsed;
     public double normalizedVmActualMemUsed;
 
-
-
     public boolean newVmFlag = false;
-
-
     private final double k;
-//    private final int start;
-//    private final int end;
+
 
 
     private ContainerAllocationProblem containerAllocationProblem;
-//    private final String testCasePath;
-//    private final String osPath;
-//    private final String vmConfigPath;
-//    private final String osProPath;
 
 
+    public MainAllocationProcessVM(ContainerAllocationProblem containerAllocationProblem, EvolutionState state, ArrayList<Double[]> pmTypeList, double PMENERGY,
+                                   double vmCpuOverheadRate, double vmMemOverhead, double k) {
 
-
-    // Constructor
-    public MainAllocationProcessVM(
-                                    ContainerAllocationProblem containerAllocationProblem,
-                                    EvolutionState state,
-                                    double PMCPU,
-                                    double PMMEM,
-                                    double PMENERGY,
-                                    double vmCpuOverheadRate,
-                                    double vmMemOverhead,
-                                    double k)
-    {
-
-        this.containerAllocationProblem = containerAllocationProblem;
-//        this.testCasePath = testCasePath;
-//        this.osPath = osPath;
-//        this.vmConfigPath = vmConfigPath;
-//        this.osProPath = osProPath;
-        this.PMCPU = PMCPU;
-        this.PMMEM = PMMEM;
-        this.PMENERGY = PMENERGY;
-        this.vmCpuOverheadRate = vmCpuOverheadRate;
-        this.vmMemOverhead = vmMemOverhead;
-        this.k = k;
-//        this.start = (int) start;
-//        this.end = (int) end;
-
-//        System.out.println(testCasePath);
-//        System.out.println(vmConfigPath);
-//        System.out.println(osPath);
-
-        // Initialize state
-        MyEvolutionState myEvolutionState = (MyEvolutionState) state;
-        myEvolutionState.PMCPU = PMCPU;
-        myEvolutionState.PMMEM = PMMEM;
-        myEvolutionState.PMENERGY = PMENERGY;
-
+            this.containerAllocationProblem = containerAllocationProblem;
+            this.vmCpuOverheadRate = vmCpuOverheadRate;
+            this.vmMemOverhead = vmMemOverhead;
+            this.k = k;
+            this.PMENERGY = PMENERGY;
+            MyEvolutionState myEvolutionState = (MyEvolutionState) state;
+            myEvolutionState.PMConfig = pmTypeList;
+            PMConfig = pmTypeList;
 //
-//        readEnvData(initEnvPath);
-//        readFromFiles(this.start, this.end - 1);
-//        readVMConfig();
-//        readOSPro();
-
     }
 
-//    private void readEnvData(String initEnvPath){
+    //    private void readEnvData(String initEnvPath){
 //        ReadConfigures readEnvConfig = new ReadConfigures();
 //
 //        initPm = readEnvConfig.testCases(initEnvPath, "pm", start, end);
@@ -169,13 +121,19 @@ public class MainAllocationProcessVM {
 
             // Create a new PM
             pmResourceList.add(new Double[]{
-                    PMCPU,
-                    PMMEM });
-
-            pmActualUsageList.add(new Double[]{
-                    PMCPU,
-                    PMMEM
+                1.0,1.0
             });
+            pmActualUsageList.add(new Double[]{
+                    1.0, 1.0
+            });
+//            pmResourceList.add(new Double[]{
+//                    PMCPU,
+//                    PMMEM });
+//
+//            pmActualUsageList.add(new Double[]{
+//                    PMCPU,
+//                    PMMEM
+//            });
 
             // for this each VM
             for(int vmCounter = 0; vmCounter < vms.length; ++vmCounter){
@@ -264,75 +222,6 @@ public class MainAllocationProcessVM {
 //        double energy = energyCalculation(pmActualUsageList);
     }
 
-    // Read two column from the testCase file
-//    private ArrayList<Double[]> readFromFile(String path, String osPath){
-//        ArrayList<Double[]> data = new ArrayList<>();
-//        try {
-//            Reader reader = Files.newBufferedReader(Paths.get(path));
-//            Reader readerOS = Files.newBufferedReader(Paths.get(osPath));
-//            CSVReader csvReader = new CSVReader(reader);
-//            CSVReader csvReaderOS = new CSVReader(readerOS);
-//            String[] nextRecord;
-//            String[] nextRecordOS;
-//            while((nextRecord = csvReader.readNext()) != null && (nextRecordOS = csvReaderOS.readNext()) != null){
-//                // [0] is for cpu, [1] is for mem
-//                Double[] container = new Double[3];
-//                container[0] = Double.parseDouble(nextRecord[0]);
-//                container[1] = Double.parseDouble(nextRecord[1]);
-//                container[2] = Double.parseDouble(nextRecordOS[0]);
-//                data.add(container);
-//            }
-//            reader.close();
-//            readerOS.close();
-//            csvReader.close();
-//            csvReaderOS.close();
-//        } catch (IOException e1){
-//            e1.printStackTrace();
-//        }
-//        return data;
-//    }
-//
-//    private void readOSPro(){
-//        try {
-//            Reader reader = Files.newBufferedReader(Paths.get(osProPath));
-//            CSVReader csvReader = new CSVReader(reader);
-//            String[] nextRecord;
-//            while((nextRecord = csvReader.readNext()) != null){
-//                Double pro;
-//                pro = Double.parseDouble(nextRecord[0]);
-//                OSPro.add(pro);
-//            }
-//        } catch (IOException e1){
-//            e1.printStackTrace();
-//        }
-//    }
-//
-//    private void readVMConfig(){
-//        try {
-//            Reader reader = Files.newBufferedReader(Paths.get(vmConfigPath));
-//            CSVReader csvReader = new CSVReader(reader);
-//            String[] nextRecord;
-//            while((nextRecord = csvReader.readNext()) != null){
-//                Double[] vm = new Double[2];
-//                vm[0] = Double.parseDouble(nextRecord[0]);
-//                vm[1] = Double.parseDouble(nextRecord[1]);
-//                vmTypeList.add(vm);
-//            }
-//        } catch (IOException e1){
-//            e1.printStackTrace();
-//        }
-//    }
-//
-//    // we read containers from file
-//    private void readFromFiles(int start, int end){
-//
-//        for(int i = start; i <= end; ++i){
-//            String path = testCasePath + i + ".csv";
-//            String pathOS = osPath + i + ".csv";
-//            inputX.add(readFromFile(path, pathOS));
-//        }
-//
-//    }
 
 
     /**
@@ -343,9 +232,12 @@ public class MainAllocationProcessVM {
      */
     private Double energyCalculation(ArrayList<Double[]> pmActualUsageList){
         Double energy = 0.0;
-        for(Double[] pmActualResource:pmActualUsageList){
-            energy += ((PMCPU - pmActualResource[0]) / PMCPU) * PMENERGY * (1 - k) + k * PMENERGY;
+        for (int i= 0; i < pmActualUsageList.size(); i++){
+            energy+= ((pmList.get(i)[0] - pmActualUsageList.get(i)[0]))/ pmList.get(i)[0] * PMENERGY * (1-k) +k * PMENERGY;
         }
+//        for(Double[] pmActualResource:pmActualUsageList){
+//            energy += ((pmList.get() - pmActualResource[0]) / PMCPU) * PMENERGY * (1 - k) + k * PMENERGY;
+//        }
         return energy;
     }
 
@@ -355,9 +247,12 @@ public class MainAllocationProcessVM {
 //            meanPmUtil += pmActualResource[0] / PMCPU;
 //        }
         Double meanPmResource = 0.0;
-        for(Double[] pmResource:pmResourceList){
-            meanPmResource += (pmResource[0] / PMCPU);
+        for(int i =0; i < pmResourceList.size(); i++){
+            meanPmResource+= (pmResourceList.get(i)[0])/pmList.get(i)[0];
         }
+//        for(Double[] pmResource:pmResourceList){
+//            meanPmResource += (pmResource[0] /pmList);
+//        }
 //        meanPmUtil /= pmActualUsageList.size();
         meanPmResource /= pmResourceList.size();
 //        System.out.println("meanPmUtil = " + meanPmUtil);
@@ -365,6 +260,13 @@ public class MainAllocationProcessVM {
 
 
         return meanPmResource;
+    }
+
+
+    public Double[] PMCreation(){
+
+
+        return  new Double[]{1.0,1.0};
     }
 
     public ArrayList<Double> evaluate(
@@ -520,14 +422,19 @@ public class MainAllocationProcessVM {
                                             );
 
                     // If we cannot choose a PM
+                    // TODO here we need to add a pm creation method to let it choose the most fit PM
                     if (chosenPM == null) {
 
                         // Add the VM to the newly created PM
                         // We don't need to consider the overhead here.
+                        Double[] PMcon= PMCreation();
+                        double PMCPU = PMcon[0];
+                        double PMMEM = PMcon[1];
                         pmResourceList.add(new Double[]{
                                 PMCPU - vmTypeList.get(vmType)[0],
                                 PMMEM - vmTypeList.get(vmType)[1]
                         });
+
 
                         // Add the Actual usage to the PM
                         // Here, we must consider the overhead
@@ -708,14 +615,22 @@ public class MainAllocationProcessVM {
 
         currentPmCpuRemain = pmCpuRemain;
         currentPmMemRemain = pmMemRemain;
-        normalizedPmCpuRemain = currentPmCpuRemain / PMCPU;
-        normalizedPmMemRemain = currentPmMemRemain / PMMEM;
-        normalizedVmCpuCapacity = vmCpuCapacity / PMCPU;
-        normalizedVmMemCapacity = vmMemCapacity / PMMEM;
-        normalizedPmActualCpuUsed = pmActualCpuUsed / PMCPU;
-        normalizedPmActualMemUsed = pmActualMemUsed / PMMEM;
-        normalizedVmActualCpuUsed = vmActualCpuUsed / PMCPU;
-        normalizedVmActualMemUsed = vmActualMemUsed / PMMEM;
+//        normalizedPmCpuRemain = currentPmCpuRemain / PMCPU;
+//        normalizedPmMemRemain = currentPmMemRemain / PMMEM;
+//        normalizedVmCpuCapacity = vmCpuCapacity / PMCPU;
+//        normalizedVmMemCapacity = vmMemCapacity / PMMEM;
+//        normalizedPmActualCpuUsed = pmActualCpuUsed / PMCPU;
+//        normalizedPmActualMemUsed = pmActualMemUsed / PMMEM;
+//        normalizedVmActualCpuUsed = vmActualCpuUsed / PMCPU;
+//        normalizedVmActualMemUsed = vmActualMemUsed / PMMEM;
+        normalizedPmCpuRemain = currentPmCpuRemain / 1;
+        normalizedPmMemRemain = currentPmMemRemain / 1;
+        normalizedVmCpuCapacity = vmCpuCapacity / 1;
+        normalizedVmMemCapacity = vmMemCapacity / 1;
+        normalizedPmActualCpuUsed = pmActualCpuUsed / 1;
+        normalizedPmActualMemUsed = pmActualMemUsed / 1;
+        normalizedVmActualCpuUsed = vmActualCpuUsed / 1;
+        normalizedVmActualMemUsed = vmActualMemUsed / 1;
 
         // update state in myEvolutionState
         MyEvolutionState myEvolutionState = (MyEvolutionState) state;
@@ -759,24 +674,29 @@ public class MainAllocationProcessVM {
 //        DoubleData input = (DoubleData) (this.input);
 
         // The resource is normalized by the PM's capacity.
-//        normalizedVmCPURemain = vmCpuRemain / PMCPU;
-//        normalizedVmMemRemain = vmMemRemain / PMMEM;
-        normalizedContainerCpu = containerCpu / PMCPU;
-        normalizedContainerMem = containerMem / PMMEM;
+//
+//        normalizedContainerCpu = containerCpu / PMCPU;
+//        normalizedContainerMem = containerMem / PMMEM;
+        normalizedContainerCpu = containerCpu / 1;
+        normalizedContainerMem = containerMem / 1;
 
         // update the data in myState
-//        myEvolutionState.normalizedVmCpuCapacity = vmCpuRemain / PMCPU;
-//        myEvolutionState.normalizedVmMemCapacity = vmMemRemain / PMMEM;
-        myEvolutionState.normalizedVmCpuRemain = vmCpuRemain / PMCPU;
-        myEvolutionState.normalizedVmMemRemain = vmMemRemain / PMMEM;
+
+//        myEvolutionState.normalizedVmCpuRemain = vmCpuRemain / PMCPU;
+//        myEvolutionState.normalizedVmMemRemain = vmMemRemain / PMMEM;
+        myEvolutionState.normalizedVmCpuRemain = vmCpuRemain / 1;
+        myEvolutionState.normalizedVmMemRemain = vmMemRemain / 1;
         myEvolutionState.normalizedContainerCpu = normalizedContainerCpu;
         myEvolutionState.normalizedContainerMem = normalizedContainerMem;
 
 
         // we only consider the overhead of new VM
         if(newVmFlag) {
-            normalizedVmCpuOverhead = vmCpuCapacity * vmCpuOverheadRate / PMCPU;
-            normalizedVmMemOverhead = vmMemOverhead / PMMEM;
+//            normalizedVmCpuOverhead = vmCpuCapacity * vmCpuOverheadRate / PMCPU;
+//            normalizedVmMemOverhead = vmMemOverhead / PMMEM;
+
+            normalizedVmCpuOverhead = vmCpuCapacity * vmCpuOverheadRate / 1;
+            normalizedVmMemOverhead = vmMemOverhead / 1;
         } else {
             normalizedVmCpuOverhead = 0;
             normalizedVmMemOverhead = 0;

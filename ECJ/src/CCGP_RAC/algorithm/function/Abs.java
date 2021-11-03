@@ -3,6 +3,7 @@ package CCGP_RAC.algorithm.function;
 import ec.EvolutionState;
 import ec.Problem;
 import ec.gp.ADFStack;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;

@@ -5,10 +5,10 @@ import ec.simple.SimpleEvolutionState;
 import java.util.ArrayList;
 
 public class MyEvolutionState extends SimpleEvolutionState{
-    public double PMCPU;
-    public double PMMEM;
+//    public double PMCPU[];
+//    public double PMMEM[];
     public double PMENERGY;
-
+    public ArrayList<Double[]> PMConfig;
     // A list of containers
     private ArrayList<ArrayList<Double[]>> inputX = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 
 public class Square extends GPNode {
     @Override

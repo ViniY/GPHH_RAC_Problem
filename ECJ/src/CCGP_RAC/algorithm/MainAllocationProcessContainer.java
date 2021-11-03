@@ -1,26 +1,21 @@
 package CCGP_RAC.algorithm;
 
-import CCGP_RAC.algorithm.function.DoubleData;
-import com.opencsv.CSVReader;
 import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.ADFStack;
 import ec.gp.GPIndividual;
+import CCGP_RAC.algorithm.terminals.DoubleData;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainAllocationProcessContainer {
 
-    public final double PMCPU;
-    public final double PMMEM;
+//    public final double PMCPU;
+//    public final double PMMEM;
     public final double PMENERGY;
 
-
+    public final ArrayList<Double[]>PMs;
 
     // An array of benchmark accumulated energy
 //    private ArrayList<Double> benchmark = new ArrayList<>();
@@ -28,9 +23,6 @@ public class MainAllocationProcessContainer {
 
     //
 //    private SubJustFit_FF benchmark;
-
-
-
 
     private final double vmCpuOverheadRate;
     private final double vmMemOverhead;
@@ -68,8 +60,6 @@ public class MainAllocationProcessContainer {
 
 
     public boolean newVmFlag = false;
-
-
     private final double k;
 
 
@@ -79,8 +69,7 @@ public class MainAllocationProcessContainer {
     public MainAllocationProcessContainer(
                                     ContainerAllocationProblem containerAllocationProblem,
                                     EvolutionState state,
-                                    double PMCPU,
-                                    double PMMEM,
+                                    ArrayList<Double[]>PMs,
                                     double PMENERGY,
                                     double vmCpuOverheadRate,
                                     double vmMemOverhead,
@@ -88,9 +77,11 @@ public class MainAllocationProcessContainer {
     {
 
         this.containerAllocationProblem = containerAllocationProblem;
-        this.PMCPU = PMCPU;
-        this.PMMEM = PMMEM;
+//        this.PMCPU = PMCPU;
+//        this.PMMEM = PMMEM;
         this.PMENERGY = PMENERGY;
+
+        this.PMs = PMs;
         this.vmCpuOverheadRate = vmCpuOverheadRate;
         this.vmMemOverhead = vmMemOverhead;
         this.k = k;
@@ -98,12 +89,20 @@ public class MainAllocationProcessContainer {
 
         // Initialize state
         MyEvolutionState myEvolutionState = (MyEvolutionState) state;
-        myEvolutionState.PMCPU = PMCPU;
-        myEvolutionState.PMMEM = PMMEM;
+//        myEvolutionState.PMCPU = PMCPU;
+//        myEvolutionState.PMMEM = PMMEM;
         myEvolutionState.PMENERGY = PMENERGY;
 
-
     }
+
+//    public MainAllocationProcessContainer(ContainerAllocationProblem containerAllocationProblem, EvolutionState state, ArrayList<Double[]> pmTypeList, double vmCpuOverheadRate, double vmMemOverhead, double k) {
+//        this.containerAllocationProblem = containerAllocationProblem;
+//        this.vmCpuOverheadRate = vmCpuOverheadRate;
+//        this.vmMemOverhead = vmMemOverhead;
+//        this.k = k;
+//
+//
+//    }
 
 
     private void initializeDataCenter(int testCase,
@@ -235,12 +234,14 @@ public class MainAllocationProcessContainer {
      * @return the energy consumption
      */
     private Double energyCalculation(ArrayList<Double[]> pmActualUsageList){
+//        Double energy = 0.0;
         Double energy = 0.0;
-        for(Double[] pmActualResource:pmActualUsageList){
-            energy += ((PMCPU - pmActualResource[0]) / PMCPU) * PMENERGY * (1 - k) + k * PMENERGY;
+        for (int i= 0; i < pmActualUsageList.size(); i++){
+            energy+= ((PMs.get(i)[0] - pmActualUsageList.get(i)[0]))/ PMs.get(i)[0] * PMENERGY * (1-k) +k * PMENERGY;
         }
         return energy;
     }
+
 //
     private Double pmUtilRemain(ArrayList<Double[]> pmActualUsageList, ArrayList<Double[]> vmResourceList){
         Double meanPmUtil = 0.0;

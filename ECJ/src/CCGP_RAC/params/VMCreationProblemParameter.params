@@ -11,8 +11,8 @@ gp.fs.0.name = f0
 
 
 # Problem specific parameters
-PMCPU               = 3300
-PMMEM               = 4000
+#PMCPU               = 3300
+#PMMEM               = 4000
 PMENERGY            = 135
 VMCPUOverheadRate   = 0.1
 VMMemOverhead       = 200
@@ -21,7 +21,7 @@ k                   = 0.7
 readFileStartFrom   = 0
 readFileEnd         = 50
 
-
+pmConfigPath =
 testCasePath        = /home/tanboxi/IdeaProjects/MaxTan/data/containerData/Container200_REALWORLD_SMALL/testCase
 osPath              = /home/tanboxi/IdeaProjects/MaxTan/data/OSData/OS2Container200/testCase
 vmConfigPath        = /home/tanboxi/IdeaProjects/MaxTan/data/baseConfig/VMConfig/VMConfig_xSmall.csv
