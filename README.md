@@ -93,6 +93,10 @@ There are some records cannot be used due to the requirements of memory or cpu a
 by the physical machines we are having in the datacenter. 
 </p>
 
+## The project is closed atm
+### For the future work, I am working on a new simulator which integrates several common used algorithms along with it. 
+
+
 
 
 
